@@ -1,0 +1,14 @@
+{% extends "admin/base.html" %}
+{% load static %}
+{% block title %}{% if subtitle %}{{ subtitle }} | {% endif %}{{ title }} | {{ site_title|default:_('Django site admin') }}{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><a href="{% url 'admin:index' %}">مدیریت جنگو</a></h1>
+{% if user.is_anonymous %}
+  {% include "admin/color_theme_toggle.html" %}
+{% endif %}
+{% endblock %}
+{% block extrastyle %}
+    <link rel="stylesheet" href="{% static 'overwite/overwite.css' %}" type="text/css">
+{% endblock %}
+{% block nav-global %}{% endblock %}

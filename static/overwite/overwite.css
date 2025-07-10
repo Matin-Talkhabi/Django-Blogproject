@@ -1,0 +1,11 @@
+@font-face {
+    font-family: "Vazirmatn Light";
+    src: url("Vazirmatn-Light.ttf");
+    font-weight: normal;
+    font-style: normal;
+}
+
+*{
+    font-family: "Vazirmatn Light";
+
+}

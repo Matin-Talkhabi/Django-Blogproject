@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% load social_share %}
+{% block title %}
+    Stand Blog Home
+{% endblock %}
+{% block contexts %}
+    {% load filters %}
+
+    <!-- Page Content -->
+    <!-- Banner Starts Here -->
+    <div class="main-banner header-text">
+        <div class="container-fluid">
+            <div class="owl-banner owl-carousel">
+                {% for post in posts %}
+                    <div class="item">
+                        <img src="{{ post.img.url }}" alt={{ post.title }}/>
+                        <div class="item-content">
+                            <div class="main-content">
+                                <div class="meta-category">
+                                    <span>{{ post.category.first.title }}</span>
+                                </div>
+                                <a href="{% url 'blog:post_data' post.slug %}"
+
+                                ><h4>{{ post.title }}</h4></a
+                                >
+                                <ul class="post-info">
+                                    <li><a href="#">{{ post.author }}</a></li>
+                                    <li><a href="#">{{ post.comments.all.count }} Comments</a></li>
+                                    <li><a href="">{{ post.like.all.count }} Like</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <!-- Banner Ends Here -->
+
+    <section class="call-to-action">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="main-content">
+                        <div class="row">
+                            <div class="col-lg-8">
+                                <span>{% current_time "%Y-%m-%d %I:%M %p" %}</span>
+                                <h4>Creative HTML Template For Bloggers!</h4>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="main-button">
+                                    <a
+                                            rel="nofollow"
+                                            href="https://templatemo.com/tm-551-stand-blog"
+                                            target="_parent"
+                                    >Download Now!</a
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="blog-posts">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="all-blog-posts">
+                        <div class="row">
+                            {% for post in post_recently %}
+                                <div class="col-lg-12">
+                                    <div class="blog-post">
+                                        <div class="blog-thumb">
+                                            <img
+                                                    src="{{ post.img.url }}"
+                                                    alt="{{ post.title }}"
+                                            />
+                                        </div>
+                                        <div class="down-content">
+
+                                            <a href="{% url 'blog:post_data' post.slug %}"
+                                            ><h4>{{ post.title }}</h4></a
+                                            >
+                                            <ul class="post-info">
+                                                <li><a href="#">{{ post.author }}</a></li>
+
+                                                <li><a href="#">{{ post.comments.all.count }} Comments</a></li>
+                                            </ul>
+                                            <p>{{ post.body|truncatewords:30 }}</p>
+
+                                            <div class="post-options">
+                                                <div class="row">
+                                                    <div class="col-6">
+                                                        <ul class="post-tags">
+                                                            <li><h5><i
+                                                                    id="like"
+                                                                    class="fa fa-heart"
+                                                                    style="font-size:20px "></i><span
+                                                                    id="count">{{ post.like.all.count }}</span></h5>
+
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <ul class="post-share">
+                                                            <li><i class="fa fa-share-alt"></i></li>
+                                                            <li>{% post_to_whatsapp object_or_url "WhatsApp" %}</li>
+                                                            <li><a href="#"> Twitter</a></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            {% endfor %}
+                            <div class="col-lg-12">
+                                <div class="main-button">
+                                    <a href="{% url 'blog:post_list' %}">View All Posts</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% include 'include/sidebar.html' %}
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}
