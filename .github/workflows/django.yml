@@ -6,8 +6,9 @@ on:
 jobs:
   run-django:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
+      - name: Checkout code
         uses: actions/checkout@v4
 
       - name: Setup Python
@@ -17,19 +18,25 @@ jobs:
 
       - name: Install dependencies
         run: |
+          pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Migrate
+      - name: Run migrations
         run: |
           python manage.py migrate
 
       - name: Install cloudflared
         run: |
-          sudo apt update
-          sudo apt install -y cloudflared
+          wget -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64.deb
+          sudo dpkg -i cloudflared-linux-amd64.deb
 
-      - name: Start Django and tunnel
+      - name: Start Django server and tunnel
         run: |
+          # اجرای سرور جنگو در پس‌زمینه
           python manage.py runserver 0.0.0.0:8000 &
+
+          # کمی صبر تا سرور بالا بیاید
           sleep 5
+
+          # ایجاد لینک عمومی موقت
           cloudflared tunnel --url http://localhost:8000
